@@ -12,4 +12,6 @@ parseGCodeElement (';':rest) = [";", rest]
 parseGCodeElement s = words s
 
 stringFromGCode :: GCode -> String
-stringFromGCode = intercalate "\n" . map (intercalate " ") 
+stringFromGCode = intercalate "\n" . map stringFromElement
+  where stringFromElement (";":rest) = ";" ++ intercalate " " rest
+        stringFromElement el = intercalate " " el
