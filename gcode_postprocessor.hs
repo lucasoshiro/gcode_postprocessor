@@ -1,12 +1,13 @@
 import System.Environment
 import LayerInfo
 import ChangeFilament
+import PowerOffBed
 
 
 runCommand :: String -> [String] -> IO ()
 runCommand "layerinfo"      = layerInfo
 runCommand "changefilament" = changeFilament
-
+runCommand "poweroffbed"    = powerOffBed
 runCommand _ = \_ -> fail "Invalid command"
 
 
