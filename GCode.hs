@@ -30,3 +30,13 @@ isLayerComment _ = False
 layerFromComment :: GCodeElement -> [Int]
 layerFromComment (";":c:_) = [read $ drop (length "LAYER:") c]
 layerFromComment _ = []
+
+
+isParamComment :: GCodeElement -> Bool
+isParamComment (";":rest:_) = "POSTPROCESS" `isPrefixOf` rest
+isParamComment _ = False
+
+
+paramsFromComment :: GCodeElement -> [String]
+paramsFromComment (";":rest:_) = words $ drop (length "POSTPROCESS") rest
+paramsFromComment _ = []

@@ -14,19 +14,23 @@ commands = M.fromList $
   [ ("layerinfo",      \_ -> layerInfo)
   , ("changefilament", changeFilament . S.fromList . map read)
   , ("poweroffbed",    powerOffBed . read . head)
+  , ("auto",           \_ -> autoPostProcess)
   ]
 
 
 parseArguments :: [String] -> Maybe (String, String, [Action])
-parseArguments (input:output:args) = Just (input, output, callbacks)
-  where parsedCommands = parseArguments' args
-        callbacks = map (\(x:xs) -> (commands M.! x) xs) parsedCommands
+parseArguments (input:output:args) = Just (input, output, parseArguments' args)
 parseArguments _ = Nothing
 
 
-parseArguments' :: [String] -> [[String]]
-parseArguments' [] = [] 
-parseArguments' args = foldl update [] args
+parseArguments' :: [String] -> [Action]
+parseArguments' args = map (\(x:xs) -> (commands M.! x) xs) parsedCommands
+  where parsedCommands = parseArguments'' args
+
+
+parseArguments'' :: [String] -> [[String]]
+parseArguments'' [] = []
+parseArguments'' args = foldl update [] args
   where cmds = S.fromList $ M.keys commands
         update l arg =
           if arg `S.member` cmds then l ++ [[arg]]
@@ -39,7 +43,7 @@ execute input output actions = do
     let parsed = gCodeFromStrings $ lines raw
     let processed = foldl1 (.) actions $ parsed
     writeFile output $ stringFromGCode processed
-  
+
 
 parseAndExecute :: [String] -> IO ()
 parseAndExecute s = do
@@ -47,3 +51,10 @@ parseAndExecute s = do
   case parsed of
     Nothing -> fail "Not enough arguments"
     Just (input, output, actions) -> execute input output actions
+
+
+autoPostProcess :: GCode -> GCode
+autoPostProcess elements = foldl1 (.) actions $ elements
+  where paramElements = filter isParamComment elements
+        parameters = concat $ map paramsFromComment paramElements
+        actions = parseArguments' parameters
