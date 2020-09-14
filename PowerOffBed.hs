@@ -1,20 +1,8 @@
 module PowerOffBed where
 import GCode
 
-
-powerOffBed :: [String] -> IO ()
-powerOffBed (input:output:raw_layer:_) = do
-  let layer = read raw_layer
-  raw <- readFile input
-  let raw_lines = lines raw
-  let parsed = gCodeFromStrings raw_lines
-  let processed = insertPowerOffBed parsed layer
-  writeFile output $ stringFromGCode processed
-powerOffBed _ = fail "Missing arguments"
-      
-
-insertPowerOffBed :: GCode -> Int -> GCode
-insertPowerOffBed elements layer = elements >>= handleEl
+powerOffBed :: Layer -> GCode -> GCode
+powerOffBed layer elements = elements >>= handleEl
   where handleEl :: GCodeElement -> GCode
         handleEl el =
           if isLayerComment el

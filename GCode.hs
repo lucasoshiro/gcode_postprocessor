@@ -4,6 +4,7 @@ import Data.List
 
 type GCode = [GCodeElement]
 type GCodeElement = [String]
+type Layer = Int
 
 
 gCodeFromStrings :: [String] -> GCode
