@@ -5,6 +5,7 @@ import Data.List
 type GCode = [GCodeElement]
 type GCodeElement = [String]
 type Layer = Int
+type FeedRate = Int
 
 
 gCodeFromStrings :: [String] -> GCode

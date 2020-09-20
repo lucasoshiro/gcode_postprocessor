@@ -3,6 +3,8 @@ import GCode
 import LayerInfo
 import ChangeFilament
 import PowerOffBed
+import SpeedChange
+import Data.List.Split (chunksOf)
 import qualified Data.Set as S
 import qualified Data.Map as M
 
@@ -14,6 +16,8 @@ commands = M.fromList $
   [ ("layerinfo",      \_ -> layerInfo)
   , ("changefilament", changeFilament . S.fromList . map read)
   , ("poweroffbed",    powerOffBed . read . head)
+  , ("speedchange",    \args -> speedChange $
+      M.fromList [(read $ head p, read $ last p) | p <- chunksOf 2 args])
   , ("auto",           \_ -> autoPostProcess)
   ]
 

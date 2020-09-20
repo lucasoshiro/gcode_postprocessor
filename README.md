@@ -13,7 +13,7 @@ using it outside RepetierHost, make sure that they are present.
 
 ### Show layer info
 Write in the printer display the current layer. This is activated with the
-command `layerinfo`
+command `layerinfo`.
 
 ### Power off bed
 Sometimes the piece is glued enough to the print bed, and the bed doesn't need
@@ -28,14 +28,24 @@ extruder and resuming), or inserting `M600` in the resulting G-Code.
 
 This feature inserts `M600` in the layers where we want to make a filament
 change. It can be used with the command `changefilament`, providing the layers
-where the filament should be changed
+where the filament should be changed.
+
+### Speed change
+Some objects has some detailed layers that need to be printed slower, sometimes
+some layers can be printed faster as they don't have too much details. You can
+manually change the speed through the printer controls, or inserting `M220` in
+the G-Code. This feature makes automates that insertion.
+
+You can use it using `speedChange`. The arguments should be a layer and the
+desired percentual speed on it and the next ones. You can pass multiple pairs of
+layer and percentage.
 
 ## Usage
 
 ### Dependencies
 
-- GHC
-- Make
+- Glasgow Haskell Compiler (`ghc`)
+- `make`
 
 ### Compiling
 
@@ -48,7 +58,7 @@ Inside the project root, run `make`.
 
 #### RepetierHost
 Add `<project_path>/postprocessor #in #out [args]` in Config > Printer Settings >
-Advanced > Filter Path and Parameter. Check "Run Filter after every Slice"
+Advanced > Filter Path and Parameter. Check "Run Filter after every Slice".
 
 ### Arguments
 
@@ -67,4 +77,4 @@ following:
 ~~~
 
 In the case of passing the arguments inside the comments, you should use only
-`auto` as the comment (i.e. `./postprocessor in.gcode out.gcode auto`)
+`auto` as the comment (i.e. `./postprocessor in.gcode out.gcode auto`).
