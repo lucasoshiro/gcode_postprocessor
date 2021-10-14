@@ -46,6 +46,7 @@ layer and percentage.
 
 - Glasgow Haskell Compiler (`ghc`)
 - `make`
+- `Spĺit` (`haskell-split` in Arch Linux/Manjaro)
 
 ### Compiling
 
