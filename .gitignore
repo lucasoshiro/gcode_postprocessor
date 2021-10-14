@@ -3,3 +3,4 @@
 *.gco
 *.gcode
 postprocessor
+gcodeinfo

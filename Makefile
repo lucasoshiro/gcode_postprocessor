@@ -1,6 +1,15 @@
+FLAGS=-O2 -dynamic
+GHC=ghc ${FLAGS}
+
+.PHONY: all
+all: postprocessor gcodeinfo
+
 postprocessor: *.hs
-	ghc -O2 -dynamic PostProcessor.hs -o postprocessor
+	${GHC} PostProcessor.hs -o $@
+
+gcodeinfo: *.hs
+	${GHC} GCodeInfo.hs -o $@
 
 .PHONY: clean
 clean:
-	rm -f **.o **.hi postprocessor
+	rm -f **.o **.hi postprocessor gcodeinfo
