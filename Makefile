@@ -1,5 +1,5 @@
 postprocessor: *.hs
-	ghc -O2 -dynamic Main.hs -o postprocessor
+	ghc -O2 -dynamic PostProcessor.hs -o postprocessor
 
 .PHONY: clean
 clean:
