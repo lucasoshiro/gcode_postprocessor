@@ -41,3 +41,7 @@ isParamComment _ = False
 paramsFromComment :: GCodeElement -> [String]
 paramsFromComment (";":rest:_) = words $ drop (length "POSTPROCESS") rest
 paramsFromComment _ = []
+
+
+readGCodeFile :: String -> IO GCode
+readGCodeFile filename = readFile filename >>= return . gCodeFromStrings . lines

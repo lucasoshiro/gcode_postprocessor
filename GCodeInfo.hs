@@ -22,13 +22,6 @@ main = do
     Nothing -> fail "Unknown material"
 
 
-readGCodeFile :: String -> IO GCode
-readGCodeFile filename = do
-  raw <- readFile filename
-  let parsed = gCodeFromStrings . lines $ raw
-  return parsed
-
-
 filamentLength :: GCode -> Float
 filamentLength gcode = last_pos - first_pos
   where
