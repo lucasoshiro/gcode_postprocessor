@@ -4,3 +4,4 @@
 *.gcode
 postprocessor
 gcodeinfo
+gcodetranslate
